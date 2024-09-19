@@ -1,14 +1,14 @@
  import 'package:flutter/material.dart';
 
 void main() {
-  runApp(UniWaterApp());
+  runApp(principal());
 }
 
-class UniWaterApp extends StatelessWidget {
+class principal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: UniWaterHomePage(),
+      home: UniWaterHomePage(),   
       debugShowCheckedModeBanner: false,
     );
   }
