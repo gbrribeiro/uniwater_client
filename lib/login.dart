@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'methods.dart';
 
 void main() {
   runApp(login());
@@ -89,8 +90,10 @@ class _LoginScreenState extends State<LoginScreen> {
             ElevatedButton(
               onPressed: () {
                 // Ação ao pressionar o botão de login
-                print('Usuário: ${_usernameController.text}');
-                print('Senha: ${_passwordController.text}');
+                String nome = _usernameController.text;
+                String senha = _passwordController.text;
+
+                testaLogin(nome, senha, context);
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.blue[900],

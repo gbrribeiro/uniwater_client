@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'main.dart';
 
 void main() => runApp(edit_user());
 
@@ -50,7 +51,15 @@ class _UserFormState extends State<UserForm> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('UniWater'),
+        title: Text(
+          'UniWater',
+          style: TextStyle(
+            color: Colors.blue,
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
+          ),
+        ),
+        centerTitle: true,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -112,8 +121,9 @@ class _UserFormState extends State<UserForm> {
                 },
               ),
               SizedBox(height: 20),
+              Spacer(),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   ElevatedButton(
                     onPressed: _saveForm,
@@ -127,6 +137,39 @@ class _UserFormState extends State<UserForm> {
                     child: Text('Restaurar para padrão'),
                   )
                 ],
+              ),
+              Spacer(),
+              BottomNavigationBar(
+                items: [
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.settings),
+                    label: '',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.water_drop),
+                    label: '',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.info),
+                    label: '',
+                  ),
+                ],
+                currentIndex: 0, // Define qual item será o selecionado por padrão
+                selectedItemColor: Colors.blue,
+                onTap: (index) {
+                  if (index == 0) { // Se o ícone de configurações for pressionado
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => edit_user()), // Navegar para a tela de edição de usuário
+                    );
+                  } else if (index == 1) { // Manter a navegação para a tela principal
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => principal()),
+                    );
+                  }
+                  // Pode-se adicionar uma lógica para o terceiro ícone, se necessário
+                },
               ),
             ],
           ),

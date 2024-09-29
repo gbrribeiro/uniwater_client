@@ -1,4 +1,5 @@
- import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
+import 'edit_user.dart';
 
 void main() {
   runApp(principal());
@@ -8,7 +9,7 @@ class principal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: UniWaterHomePage(),   
+      home: UniWaterHomePage(),
       debugShowCheckedModeBanner: false,
     );
   }
@@ -163,12 +164,17 @@ class _UniWaterHomePageState extends State<UniWaterHomePage> {
               currentIndex: 1,
               selectedItemColor: Colors.blue,
               onTap: (index) {
-                // Implement navigation if needed
+                if (index == 0) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => edit_user()),
+                  );
+                }
               },
             ),
           ],
         ),
       ),
-  );
- }
+    );
+  }
 }
