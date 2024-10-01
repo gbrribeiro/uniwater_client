@@ -1,176 +1,148 @@
 import 'package:flutter/material.dart';
-import 'edit_user.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'methods.dart';
 
 void main() {
-  runApp(principal());
+  runApp(login());
 }
 
-class principal extends StatelessWidget {
+class login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: UniWaterHomePage(),
       debugShowCheckedModeBanner: false,
+      home: LoginScreen(),
     );
   }
 }
 
-class UniWaterHomePage extends StatefulWidget {
+class LoginScreen extends StatefulWidget {
   @override
-  _UniWaterHomePageState createState() => _UniWaterHomePageState();
+  _LoginScreenState createState() => _LoginScreenState();
 }
 
-class _UniWaterHomePageState extends State<UniWaterHomePage> {
-  double ligarValue = 15;
-  double desligarValue = 90;
-  double umidade = 94;
-  bool controleUmidade = true;
+class _LoginScreenState extends State<LoginScreen> {
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        title: Text(
-          'UniWater',
-          style: TextStyle(
-            color: Colors.blue,
-            fontWeight: FontWeight.bold,
-            fontSize: 20,
-          ),
-        ),
-        centerTitle: true,
-      ),
+      backgroundColor: Colors.white,
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
+          children: <Widget>[
+            // Logo UniWater
             Text(
-              'Bem-vindo Gabriel!',
+              'UniWater',
               style: TextStyle(
-                fontSize: 24,
+                fontSize: 40,
                 fontWeight: FontWeight.bold,
+                color: Colors.blue[900],
               ),
             ),
-            SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  children: [
-                    Text('Ligar'),
-                    RotatedBox(
-                      quarterTurns: -1,
-                      child: Slider(
-                        value: ligarValue,
-                        min: 0,
-                        max: 100,
-                        divisions: 100,
-                        activeColor: Colors.blue,
-                        onChanged: (value) {
-                          setState(() {
-                            ligarValue = value;
-                          });
-                        },
-                      ),
-                    ),
-                    Text('${ligarValue.toInt()}%'),
-                  ],
-                ),
-                Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    CircularProgressIndicator(
-                      value: umidade / 100,
-                      strokeWidth: 12,
-                      valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
-                      backgroundColor: Colors.grey[300],
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.grass,
-                          size: 40,
-                        ),
-                        SizedBox(height: 8),
-                        Text(
-                          '${umidade.toInt()}%',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                Column(
-                  children: [
-                    Text('Desligar'),
-                    RotatedBox(
-                      quarterTurns: -1,
-                      child: Slider(
-                        value: desligarValue,
-                        min: 0,
-                        max: 100,
-                        divisions: 100,
-                        activeColor: Colors.blue,
-                        onChanged: (value) {
-                          setState(() {
-                            desligarValue = value;
-                          });
-                        },
-                      ),
-                    ),
-                    Text('${desligarValue.toInt()}%'),
-                  ],
-                ),
-              ],
+            SizedBox(height: 8),
+            Text(
+              'Bem-vindo!',
+              style: TextStyle(
+                fontSize: 28,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 8),
+            Text(
+              'Faça Login para continuar.',
+              style: TextStyle(fontSize: 16, color: Colors.grey),
+            ),
+            SizedBox(height: 32),
+
+            // Campo de Usuário
+            TextField(
+              controller: _usernameController,
+              decoration: InputDecoration(
+                labelText: 'Usuário',
+                prefixIcon: Icon(Icons.person),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+            ),
+            SizedBox(height: 16),
+
+            // Campo de Senha
+            TextField(
+              controller: _passwordController,
+              obscureText: true,
+              decoration: InputDecoration(
+                labelText: 'Senha',
+                prefixIcon: Icon(Icons.lock),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+            ),
+            SizedBox(height: 16),
+
+            // Botão de Login
+            ElevatedButton(
+              onPressed: () {
+                // Ação ao pressionar o botão de login
+                String nome = _usernameController.text;
+                String senha = _passwordController.text;
+
+                testaLogin(nome, senha, context);
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blue[900],
+                minimumSize: Size(double.infinity, 50),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+              child: Text(
+                'LOGIN',
+                style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            SizedBox(height: 16),
+
+            // Esqueci Minha Senha
+            TextButton(
+              onPressed: () {
+                // Ação para "Esqueci minha senha"
+                print('Esqueci minha senha');
+              },
+              child: Text('ESQUECI MINHA SENHA'),
+            ),
+            SizedBox(height: 16),
+
+            // Entrar em contato via WhatsApp
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text('Controle por umidade'),
-                Switch(
-                  value: controleUmidade,
-                  onChanged: (value) {
-                    setState(() {
-                      controleUmidade = value;
-                    });
+                Text('Não tem uma conta? '),
+                GestureDetector(
+                  onTap: () {
+                    // Ação para entrar em contato via WhatsApp
+                    print('Entrar em contato via WhatsApp');
                   },
+                  child: Row(
+                    children: [
+                      Text(
+                        'Entre em contato pelo ',
+                        style: TextStyle(color: Colors.grey[600]),
+                      ),
+                      FaIcon(FontAwesomeIcons.whatsapp, color: Colors.green),
+                    ],
+                  ),
                 ),
               ],
-            ),
-            Spacer(),
-            BottomNavigationBar(
-              items: [
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.settings),
-                  label: '',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.water_drop),
-                  label: '',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.info),
-                  label: '',
-                ),
-              ],
-              currentIndex: 1,
-              selectedItemColor: Colors.blue,
-              onTap: (index) {
-                if (index == 0) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => edit_user()),
-                  );
-                }
-              },
             ),
           ],
         ),

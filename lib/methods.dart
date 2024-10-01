@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'main.dart';
+import 'inicial.dart';
 
 void testaLogin(String nome, String senha, BuildContext context) {
   if (nome.isEmpty || senha.isEmpty) {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'main.dart';
+import 'inicial.dart';
 
 void main() => runApp(edit_user());
 
@@ -150,7 +150,7 @@ class _UserFormState extends State<UserForm> {
                     label: '',
                   ),
                   BottomNavigationBarItem(
-                    icon: Icon(Icons.info),
+                    icon: Icon(Icons.access_time),
                     label: '',
                   ),
                 ],
