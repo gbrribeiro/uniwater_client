@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'inicial.dart';
+import 'main.dart';
 
 void main() => runApp(edit_user());
 
@@ -150,25 +151,55 @@ class _UserFormState extends State<UserForm> {
                     label: '',
                   ),
                   BottomNavigationBarItem(
-                    icon: Icon(Icons.access_time),
+                    icon: Icon(Icons.logout),
                     label: '',
                   ),
                 ],
-                currentIndex: 0, // Define qual item será o selecionado por padrão
+                currentIndex:
+                    0, 
                 selectedItemColor: Colors.blue,
                 onTap: (index) {
-                  if (index == 0) { // Se o ícone de configurações for pressionado
+                  if (index == 0) {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => edit_user()), // Navegar para a tela de edição de usuário
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              edit_user()),
                     );
-                  } else if (index == 1) { // Manter a navegação para a tela principal
+                  } else if (index == 1) {
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => principal()),
                     );
-                  }
-                  // Pode-se adicionar uma lógica para o terceiro ícone, se necessário
+                  } else if (index == 2) {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text("Deseja sair?"),
+                            content: Text("Você tem certeza que deseja sair da aplicação?"),
+                            actions: [
+                              TextButton(
+                                child: Text("Cancelar"),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                              TextButton(
+                                child: Text("Sair"),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => login()),
+                                  );
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    }
                 },
               ),
             ],

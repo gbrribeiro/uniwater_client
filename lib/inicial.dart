@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'edit_user.dart';
+import 'main.dart';
+
 
 void main() {
   runApp(principal());
@@ -48,7 +50,7 @@ class _UniWaterHomePageState extends State<UniWaterHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'Bem-vindo Eduardo!',
+              'Bem-vindo ' + _usernameController,
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
@@ -169,7 +171,7 @@ class _UniWaterHomePageState extends State<UniWaterHomePage> {
             label: '',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.access_time),
+            icon: Icon(Icons.logout),
             label: '',
           ),
         ],
@@ -181,7 +183,35 @@ class _UniWaterHomePageState extends State<UniWaterHomePage> {
               context,
               MaterialPageRoute(builder: (context) => edit_user()),
             );
-          }
+          } else if (index == 2) {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Text("Deseja sair?"),
+                    content: Text("Você tem certeza que deseja sair da aplicação?"),
+                    actions: [
+                      TextButton(
+                        child: Text("Cancelar"),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                      TextButton(
+                        child: Text("Sair"),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => login()),
+                          );
+                        },
+                      ),
+                    ],
+                  );
+                },
+              );
+            }
         },
       ),
     );
