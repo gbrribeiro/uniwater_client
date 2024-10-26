@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'inicial.dart';
+import 'package:irrigacao/Globals.dart';
+import 'package:irrigacao/Views/UniWaterHomePage.dart';
 
 void main() => runApp(edit_user());
 
@@ -170,7 +171,9 @@ class _UserFormState extends State<UserForm> {
                     // Manter a navegação para a tela principal
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => HomePageView()),
+                      MaterialPageRoute(
+                          builder: (context) => UniWaterHomePage(
+                              apiService.user, apiService.parameters)),
                     );
                   }
                   // Pode-se adicionar uma lógica para o terceiro ícone, se necessário

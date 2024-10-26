@@ -1,35 +1,52 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'edit_user.dart';
-
-void main() {
-  runApp(HomePageView());
-}
-
-class HomePageView extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: UniWaterHomePage(),
-      debugShowCheckedModeBanner: false,
-    );
-  }
-}
+import 'package:irrigacao/Globals.dart';
+import 'package:irrigacao/Models/StreamingData.dart';
+import 'package:irrigacao/Models/SystemParameters.dart';
+import 'package:irrigacao/Models/User.dart';
+import 'package:irrigacao/edit_user.dart';
 
 class UniWaterHomePage extends StatefulWidget {
+  final User actualUser;
+  SystemParameters parameters;
+  UniWaterHomePage(this.actualUser, this.parameters, {super.key});
+
   @override
   _UniWaterHomePageState createState() => _UniWaterHomePageState();
 }
 
 class _UniWaterHomePageState extends State<UniWaterHomePage> {
-  double ligarValue = 15;
-  double desligarValue = 90;
-  double umidade = 80;
+  late StreamingData data =
+      StreamingData(humidity: 0, temperature: 0, internalClock: DateTime.now());
   bool controleUmidade = true;
+
+  void startRepeatingFunction() {
+    Timer.periodic(const Duration(seconds: 5), (timer) async {
+      var ret = await apiService.getStreamingData();
+      setState(() {
+        data = ret;
+      });
+    });
+  }
+
+  void saveChanges() async {
+    bool success = await apiService.postSystemConfig(widget.parameters);
+    if (success) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text("Salvo com sucesso!")));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    startRepeatingFunction();
+
     return Scaffold(
       appBar: AppBar(
+        leading: BackButton(
+          onPressed: () => Navigator.pop(context),
+        ),
         backgroundColor: Colors.white,
         elevation: 0,
         title: const Text(
@@ -49,13 +66,13 @@ class _UniWaterHomePageState extends State<UniWaterHomePage> {
           children: [
             const Text(
               //TODO: USUARIO NOME
-              'Bem-vindo!',
+              'Bem-vindo! ',
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -65,7 +82,8 @@ class _UniWaterHomePageState extends State<UniWaterHomePage> {
                     RotatedBox(
                       quarterTurns: -1,
                       child: Slider(
-                        value: ligarValue,
+                        value:
+                            widget.parameters.humidityOnPercentage.toDouble(),
                         min: 0,
                         max: 100,
                         divisions: 100,
@@ -73,13 +91,14 @@ class _UniWaterHomePageState extends State<UniWaterHomePage> {
                         onChanged: controleUmidade
                             ? (value) {
                                 setState(() {
-                                  ligarValue = value;
+                                  widget.parameters.humidityOnPercentage =
+                                      value.toInt();
                                 });
                               }
                             : null,
                       ),
                     ),
-                    Text('${ligarValue.toInt()}%'),
+                    Text('${widget.parameters.humidityOnPercentage.toInt()}%'),
                   ],
                 ),
                 Stack(
@@ -89,7 +108,7 @@ class _UniWaterHomePageState extends State<UniWaterHomePage> {
                       width: 100,
                       height: 100,
                       child: CircularProgressIndicator(
-                        value: umidade / 100,
+                        value: data.humidity / 100,
                         strokeWidth: 10,
                         valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
                         backgroundColor: Colors.grey[300],
@@ -105,7 +124,7 @@ class _UniWaterHomePageState extends State<UniWaterHomePage> {
                         ),
                         SizedBox(height: 8),
                         Text(
-                          '${umidade.toInt()}%',
+                          '${data.humidity.toInt()}%',
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -122,7 +141,8 @@ class _UniWaterHomePageState extends State<UniWaterHomePage> {
                     RotatedBox(
                       quarterTurns: -1,
                       child: Slider(
-                        value: desligarValue,
+                        value:
+                            widget.parameters.humidityOffPercentage.toDouble(),
                         min: 0,
                         max: 100,
                         divisions: 100,
@@ -130,13 +150,14 @@ class _UniWaterHomePageState extends State<UniWaterHomePage> {
                         onChanged: controleUmidade
                             ? (value) {
                                 setState(() {
-                                  desligarValue = value;
+                                  widget.parameters.humidityOffPercentage =
+                                      value.toInt();
                                 });
                               }
                             : null,
                       ),
                     ),
-                    Text('${desligarValue.toInt()}%'),
+                    Text('${widget.parameters.humidityOffPercentage}%'),
                   ],
                 ),
               ],
@@ -156,6 +177,9 @@ class _UniWaterHomePageState extends State<UniWaterHomePage> {
                 ),
               ],
             ),
+            SizedBox(height: 25),
+            FilledButton(
+                onPressed: () => saveChanges(), child: const Text("Salvar"))
           ],
         ),
       ),
