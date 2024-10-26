@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'edit_user.dart';
 
 void main() {
-  runApp(principal());
+  runApp(HomePageView());
 }
 
-class principal extends StatelessWidget {
+class HomePageView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -32,7 +32,7 @@ class _UniWaterHomePageState extends State<UniWaterHomePage> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        title: Text(
+        title: const Text(
           'UniWater',
           style: TextStyle(
             color: Colors.blue,
@@ -47,8 +47,9 @@ class _UniWaterHomePageState extends State<UniWaterHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              'Bem-vindo Eduardo!',
+            const Text(
+              //TODO: USUARIO NOME
+              'Bem-vindo!',
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,

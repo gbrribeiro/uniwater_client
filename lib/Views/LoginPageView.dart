@@ -24,7 +24,7 @@ class _LoginPageViewState extends State<LoginPageView> {
       });
       //TODO: CHANGE
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => principal()));
+          context, MaterialPageRoute(builder: (context) => HomePageView()));
     } else {
       //ERRO DE USUARIO NAO EXISTE
       setState(() {

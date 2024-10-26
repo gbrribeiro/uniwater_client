@@ -154,18 +154,23 @@ class _UserFormState extends State<UserForm> {
                     label: '',
                   ),
                 ],
-                currentIndex: 0, // Define qual item será o selecionado por padrão
+                currentIndex:
+                    0, // Define qual item será o selecionado por padrão
                 selectedItemColor: Colors.blue,
                 onTap: (index) {
-                  if (index == 0) { // Se o ícone de configurações for pressionado
+                  if (index == 0) {
+                    // Se o ícone de configurações for pressionado
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => edit_user()), // Navegar para a tela de edição de usuário
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              edit_user()), // Navegar para a tela de edição de usuário
                     );
-                  } else if (index == 1) { // Manter a navegação para a tela principal
+                  } else if (index == 1) {
+                    // Manter a navegação para a tela principal
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => principal()),
+                      MaterialPageRoute(builder: (context) => HomePageView()),
                     );
                   }
                   // Pode-se adicionar uma lógica para o terceiro ícone, se necessário
