@@ -8,16 +8,6 @@ void main() {
   runApp(LoginScreen());
 }
 
-// class login extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       debugShowCheckedModeBanner: false,
-//       home: LoginScreen(),
-//     );
-//   }
-// }
-
 class LoginScreen extends StatefulWidget {
   @override
   _LoginScreenState createState() => _LoginScreenState();
