@@ -23,12 +23,6 @@ class _UniWaterHomePageState extends State<UniWaterHomePage> {
   bool controleUmidade = true;
   bool isLoading = false;
 
-  void startRepeatingFunction() {
-    Timer.periodic(const Duration(seconds: 4), (timer) {
-      getStreaming();
-    });
-  }
-
   void getStreaming() async {
     var ret = await apiService.getStreamingData();
     setState(() {
@@ -52,10 +46,13 @@ class _UniWaterHomePageState extends State<UniWaterHomePage> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
     getStreaming();
-    startRepeatingFunction();
+    super.initState();
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Stack(
       children: [
         Scaffold(
@@ -164,7 +161,9 @@ class _UniWaterHomePageState extends State<UniWaterHomePage> {
                             min: 0,
                             max: 100,
                             divisions: 100,
-                            activeColor: Colors.blue,
+                            activeColor: Colors.black.withOpacity(0.1),
+                            thumbColor: Colors.blue,
+                            inactiveColor: Colors.blue,
                             onChanged: controleUmidade
                                 ? (value) {
                                     setState(() {
@@ -197,7 +196,15 @@ class _UniWaterHomePageState extends State<UniWaterHomePage> {
                 // ),
                 SizedBox(height: 25),
                 FilledButton(
-                    onPressed: () => saveChanges(), child: const Text("Salvar"))
+                  onPressed: () => saveChanges(),
+                  child: const Text("Salvar"),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                IconButton(
+                    onPressed: () => getStreaming(),
+                    icon: const Icon(Icons.refresh))
               ],
             ),
           ),
